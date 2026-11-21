@@ -18,13 +18,14 @@ failover, and the built-in response cache. Multi-turn history lives in SQLite.
 
 ## 1. Live URLs
 
-| | URL |
+| Component | URL |
 |---|---|
-| Frontend | `<PASTE FRONTEND URL HERE>` |
-| Backend  | `<PASTE BACKEND URL HERE>` (check `/health`) |
-| Demo video | `<PASTE VIDEO URL HERE>` |
+| Frontend | https://ai-chatbot-vert-zeta-96.vercel.app |
+| Backend API Base URL | https://ai-chatbot-zdyj.onrender.com |
+| Backend Health Check | https://ai-chatbot-zdyj.onrender.com/health |
+| GitHub Repository | https://github.com/vinayak15khandelwal/ai-chatbot |
 
-Deployment steps: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+The frontend is deployed on Vercel and communicates with the FastAPI backend deployed on Render.
 
 ## 2. Run locally: with Docker and without
 
