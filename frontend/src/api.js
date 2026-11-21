@@ -1,5 +1,17 @@
 const BASE = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/+$/, "");
 
+/** Lightweight connectivity check against the existing GET /health endpoint. */
+export async function getHealth() {
+  try {
+    const res = await fetch(`${BASE}/health`);
+    const data = await res.json().catch(() => null);
+    if (res.ok) return { state: "ok", keys: data?.keys_configured ?? null };
+    return { state: "degraded", keys: data?.keys_configured ?? null };
+  } catch {
+    return { state: "down", keys: null };
+  }
+}
+
 export function newSessionId() {
   if (globalThis.crypto?.randomUUID) return "s-" + crypto.randomUUID();
   return "s-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
