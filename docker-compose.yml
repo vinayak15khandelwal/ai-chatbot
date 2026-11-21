@@ -1,0 +1,33 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      LLM_API_KEYS: ${LLM_API_KEYS:?Set LLM_API_KEYS in .env (comma-separated, at least 2 keys)}
+      LLM_MODEL: ${LLM_MODEL:-gemini/gemini-3.5-flash-lite}
+      DATABASE_URL: ${DATABASE_URL:-sqlite:////data/app.db}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      ENABLE_FAILURE_SIMULATION: ${ENABLE_FAILURE_SIMULATION:-true}
+      CACHE_ENABLED: ${CACHE_ENABLED:-true}
+      CACHE_TYPE: ${CACHE_TYPE:-local}
+      CACHE_DIR: ${CACHE_DIR:-/data/llm_cache}
+      DEFAULT_SYSTEM_PROMPT: ${DEFAULT_SYSTEM_PROMPT:-You are a helpful, concise AI assistant.}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - app_data:/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "3000:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  app_data:

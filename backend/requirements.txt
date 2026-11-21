@@ -1,0 +1,7 @@
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.4
+pydantic-settings
+litellm==1.110.2
+orjson
+soundfile
